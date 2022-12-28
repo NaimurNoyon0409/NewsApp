@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:news_app_api/helper/helper.dart';
 
 import '../model/articlemodel.dart';
+import 'detailspage.dart';
 
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
-  static const String routeName='/';
   @override
   State<HomePage> createState() => _HomePageState();
 }
@@ -48,18 +48,35 @@ class _HomePageState extends State<HomePage> {
         child: ListView.builder(
             itemCount: articles.length,
             itemBuilder:(context, index){
-              return Column(
-                children: [
-                  Image.network(
-                    '${articles[index].urltoimage}'
-                    ,height: 200,
-                    fit: BoxFit.cover
+              return InkWell(
+                onTap: (){
+                   Navigator.push(
+                     context,
+                     MaterialPageRoute(
+                       builder: (context) => NewsDetails(
+                         title: '${articles[index].title}',
+                         des: '${articles[index].desc}',
+                         url: '${articles[index].url}',
+                         urlToImage: '${articles[index].urltoimage}',
+                         content: '${articles[index].content}',
+
+                       ),
+                     ),
+                      );
+                },
+                child: Column(
+                  children: [
+                    Image.network(
+                      '${articles[index].urltoimage}'
+                      ,height: 200,
+                      fit: BoxFit.cover
+                  ),
+                    const SizedBox(height: 10,),
+                    Text('${articles[index].title}',style: TextStyle(fontSize: 20, color: Colors.black)),
+                    const SizedBox(height: 10,),
+                    const Divider(color: Colors.black,),
+                  ],
                 ),
-                  const SizedBox(height: 10,),
-                  Text('${articles[index].title}',style: TextStyle(fontSize: 20, color: Colors.black)),
-                  const SizedBox(height: 10,),
-                  const Divider(color: Colors.black,),
-                ],
               );
             }
         ),
